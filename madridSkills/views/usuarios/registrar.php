@@ -30,7 +30,7 @@
                     <option value="Otro">Otro</option>
                 </select>
                 <label for="fecha_na">Fecha de nacimiento</label>
-                <input type="date" id="fecha_na" name="fecha_na">
+                <input type="date" id="fecha_nac" name="fecha_nac">
                 <input type="text" id="telefono" name="telefono" placeholder="Telefono" maxlength="9" minlenght="9">
                 <input type="email" id="email" name="email" placeholder="Correo electronico">
                 <input type="text" id="direccion" name="direccion" placeholder="Dirección">
