@@ -42,12 +42,12 @@ class Usuario{
     // la función para eliminar por el id
 	public static function delete($id){
 		$db=Db::getConnect();
-		$delete=$db->prepare('DELETE FROM usuarios WHERE ID=:id');
+		$delete=$db->prepare('DELETE FROM usuarios WHERE Id=:id');
 		$delete->bindValue('id',$id);
 		$delete->execute();
 	}
 
-    //la función para obtener un usuario por el id
+    //la función para obtener un usuario sin id
     public static function getUsuarioBD($nombre, $contra){
         //Encriptar contraseña antes de la sentencia SQL
         //$contra = 
@@ -76,9 +76,14 @@ class Usuario{
 		$select->bindValue('id',$id);
 		$select->execute();
 		//asignarlo al objeto usuario
-		$usuarioDb=$select->fetch();
-		$usuario= new Usuario($usuarioDb['id'],$usuarioDb['nombre'],$usuarioDb['contra'],$usuarioDb['tipo']);
-		return $usuario;
+		if($select->fetchColumn()){
+            //asignarlo al objeto usuario
+            $usuarioDb=$select->fetch();
+            $usuario= new Usuario($usuarioDb['id'],$usuarioDb['nombre'],$usuarioDb['contra'],$usuarioDb['tipo']);
+            return $usuario;
+        }else{
+            echo "Usuario no encontrado";
+        }
 	}
 
 
