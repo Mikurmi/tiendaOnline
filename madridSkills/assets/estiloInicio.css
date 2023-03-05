@@ -1,0 +1,120 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial;
+    padding: 10px;
+    background: #f1f1f1;
+  }
+  
+  /* Header/Blog Title */
+  .header {
+    padding: 30px;
+    text-align: center;
+    background: white;
+  }
+  
+  .header h1 {
+    font-size: 60px;
+  }
+  
+  /* Style the top navigation bar */
+  .topnav {
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  /* Style the topnav links */
+  .topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* Change color on hover */
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  /* Create three equal columns that floats next to each other */
+  .column-left {
+    float: left;
+    width: 50%;
+    padding-right: 10px;
+  }
+  
+  .column-right {
+    float: left;
+    width: 50%;
+  }
+  
+  
+  /* Add a card effect for articles */
+  .card {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  
+  /* Estilo para las imagenes */
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Estilo select */
+  select, input[type=number]{
+    border-radius: 15px 50px;
+    padding: 10px;
+    width: 100%;
+  }
+  
+  /*Estilo de los botones*/
+  input[type=reset], input[type=submit]{
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #333;
+    border: none;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 20px;
+    width: 150px;
+    transition: all 0.2s;
+    cursor: pointer;
+    margin: 5px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+    opacity: 0.8;
+  }
+  /*Efecto de presionar los botones*/
+  input[type=reset]:active, input[type=submit]:active{
+    background-color: #333;
+    color: #f2f2f2;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+  /*Efecto de pasar por encima*/
+  input[type=reset]:hover, input[type=submit]:hover{
+    opacity: 1;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+  @media screen and (max-width:600px) {
+    .column {
+      width: 100%;
+    }
+  }
