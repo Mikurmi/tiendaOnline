@@ -14,6 +14,7 @@
 
     <div class="topnav">
         <!-- Le pasamos al controller usuario porque es el generico ya que no sabemos si es cliente o administrador-->
+        <a href="index.php">Inicio</a>
         <a href="?controller=usuario&action=inicio">Inicia Sesión</a>
         <a href="?controller=usuario&action=registro">Registrarse</a>
         <!--

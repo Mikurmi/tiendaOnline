@@ -24,7 +24,7 @@
             <div class="card" id="tipo_C" style="visibility :hidden;position: absolute;">
                 <h2>Datos de cliente</h2>
                 <input type="text" name="apellidos" placeholder="Apellidos">
-                <select>
+                <select name="genero">
                     <option value="Masculino">Masculino</option>
                     <option value="Femenino">Femenino</option>
                     <option value="Otro">Otro</option>
@@ -34,7 +34,7 @@
                 <input type="text" id="telefono" name="telefono" placeholder="Telefono" maxlength="9" minlenght="9">
                 <input type="email" id="email" name="email" placeholder="Correo electronico">
                 <input type="text" id="direccion" name="direccion" placeholder="Dirección">
-                <select>
+                <select name="tipo_ident">
                     <option value="DNI">DNI</option>
                     <option value="NIF">NIF</option>
                     <option value="Pasaporte">Pasaporte</option>
