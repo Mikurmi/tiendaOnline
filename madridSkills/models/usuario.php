@@ -60,10 +60,10 @@ class Usuario{
         if($select->fetchColumn()){
             //asignarlo al objeto usuario
             $usuarioDb=$select->fetch();
-            $usuario= new Usuario($usuarioDb['id'],$usuarioDb['nombre'],$usuarioDb['contra'],$usuarioDb['tipo']);
+            $usuario = new Usuario($usuarioDb['id'],$usuarioDb['nombre'],$usuarioDb['contra'],$usuarioDb['tipo']);
             return $usuario;
         }else{
-            echo "Usuario no encontrado";
+            return false;
         }
         
     }
@@ -82,7 +82,7 @@ class Usuario{
             $usuario= new Usuario($usuarioDb['id'],$usuarioDb['nombre'],$usuarioDb['contra'],$usuarioDb['tipo']);
             return $usuario;
         }else{
-            echo "Usuario no encontrado";
+            return false;
         }
 	}
 

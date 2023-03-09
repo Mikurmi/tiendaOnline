@@ -68,7 +68,7 @@
                 $categoria= new Categoria($categoriaDb['id'],$categoriaDb['nombre']);
                 return $categoria;
             }else{
-                echo "Categoria no encontrado";
+                return false;
             }
         }
     }

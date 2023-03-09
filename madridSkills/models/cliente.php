@@ -76,7 +76,7 @@ class Cliente{
             $cliente= new Cliente($clienteDb['id_us'],$clienteDb['apellidos'],$clienteDb['genero'],$clienteDb['fecha_nac'],$clienteDb['telefono'],$clienteDb['email'],$clienteDb['direccion'],$clienteDb['tipo_ident'], $clienteDb['identificador']);
             return $cliente;
         }else{
-            echo "cliente no encontrado";
+            return false;
         }
 	}
 

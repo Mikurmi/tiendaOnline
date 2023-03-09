@@ -25,8 +25,8 @@ class Administrador{
 	public static function update($administrador){
 		$db=Db::getConnect();
 		$update=$db->prepare('UPDATE administrador SET cod_admin=:cod_admin WHERE id_us=:id_us');
-        $insert->bindValue('id_us',$administrador->id_us);
-        $insert->bindValue('cod_admin',$administrador->cod_admin);
+        $update->bindValue('id_us',$administrador->id_us);
+        $update->bindValue('cod_admin',$administrador->cod_admin);
 		$update->execute();
 	}
 
@@ -48,18 +48,13 @@ class Administrador{
         if($select->fetchColumn()){
             //asignarlo al objeto administrador
             $administradorDb=$select->fetch();
-            $administrador= new Administrador($administradorDb['id_us'],$administradorDb['cod_admin']);
+            $administrador = new Administrador($administradorDb['id_us'],$administradorDb['cod_admin']);
             return $administrador;
         }else{
-            echo "No encontrado";
+            return false;
         }
 		
 	}
-
-
-
-
-
 
 }
 

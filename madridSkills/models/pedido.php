@@ -73,7 +73,7 @@
                 $producto= new Producto($productoDb['id'],$productoDb['id_us'],$productoDb['fecha'], $productoDb['estado'], $productoDb['productos']);
                 return $producto;
             }else{
-                echo "Producto no encontrado";
+                return false;
             }
         }
 
@@ -90,7 +90,7 @@
                 $producto= new Producto($productoDb['id'],$productoDb['id_us'],$productoDb['fecha'], $productoDb['estado'], $productoDb['productos']);
                 return $producto;
             }else{
-                echo "Producto no encontrado";
+                return false;
             }
         }
 
@@ -107,7 +107,7 @@
                 $producto= new Producto($productoDb['id'],$productoDb['id_us'],$productoDb['fecha'], $productoDb['estado'], $productoDb['productos']);
                 return $producto;
             }else{
-                echo "Producto no encontrado";
+                return false;
             }
         }
     }

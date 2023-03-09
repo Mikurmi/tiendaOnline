@@ -58,7 +58,7 @@
                 $producto= new Producto($productoDb['id'],$productoDb['nombre'],$productoDb['precio'],$productoDb['categoria'],$productoDb['unidades']);
                 return $producto;
             }else{
-                echo "Producto no encontrado";
+                return false;
             }
         }
 
@@ -74,7 +74,7 @@
                 $producto= new Producto($productoDb['id'],$productoDb['nombre'],$productoDb['precio'],$productoDb['categoria'],$productoDb['unidades']);
                 return $producto;
             }else{
-                echo "Producto no encontrado";
+                return false;
             }
         }
 
