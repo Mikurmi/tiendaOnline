@@ -56,10 +56,9 @@ class Usuario{
         $select->bindValue('nombre',$nombre);
         $select->bindValue('contra',$contra);
         $select->execute();
-        //$select->fetchColumn() Devuelve el numero de columnas afectadas por la ejecución
-        if($select->fetchColumn()){
+        $usuarioDb=$select->fetch();
+        if($usuarioDb){
             //asignarlo al objeto usuario
-            $usuarioDb=$select->fetch();
             $usuario = new Usuario($usuarioDb['id'],$usuarioDb['nombre'],$usuarioDb['contra'],$usuarioDb['tipo']);
             return $usuario;
         }else{
@@ -75,11 +74,10 @@ class Usuario{
 		$select=$db->prepare('SELECT * FROM usuarios WHERE ID=:id');
 		$select->bindValue('id',$id);
 		$select->execute();
-		//asignarlo al objeto usuario
-		if($select->fetchColumn()){
+		$usuarioDb=$select->fetch();
+        if($usuarioDb){
             //asignarlo al objeto usuario
-            $usuarioDb=$select->fetch();
-            $usuario= new Usuario($usuarioDb['id'],$usuarioDb['nombre'],$usuarioDb['contra'],$usuarioDb['tipo']);
+            $usuario = new Usuario($usuarioDb['id'],$usuarioDb['nombre'],$usuarioDb['contra'],$usuarioDb['tipo']);
             return $usuario;
         }else{
             return false;

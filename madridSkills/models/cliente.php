@@ -69,10 +69,8 @@ class Cliente{
 		$select=$db->prepare('SELECT * FROM cliente WHERE id_us=:id_us');
 		$select->bindValue('id_us',$id_us);
 		$select->execute();
-		//asignarlo al objeto usuario
-		if($select->fetchColumn()){
-            //asignarlo al objeto usuario
-            $clienteDb=$select->fetch();
+        $clienteDb=$select->fetch();
+		if($clienteDb){
             $cliente= new Cliente($clienteDb['id_us'],$clienteDb['apellidos'],$clienteDb['genero'],$clienteDb['fecha_nac'],$clienteDb['telefono'],$clienteDb['email'],$clienteDb['direccion'],$clienteDb['tipo_ident'], $clienteDb['identificador']);
             return $cliente;
         }else{

@@ -7,6 +7,7 @@
         public $fecha;
         public $precio;
         public $estado;
+        //Los productos esat separados por / y la cantida del producto separados por -
         public $productos;
 
         function __construct($id, $id_us, $fecha, $estado, $productos){
@@ -19,13 +20,15 @@
         }
 
         public static function getPrecio($productos){
-            require_once('productos.php');
+            require_once('producto.php');
             $total = 0;
-            $precio = explode('/', $productos);
-            for($i = 0; $i < count($precio); $i++){
-                $precio[$i] = explode('-', $precio[$i]);
-                $precio[$i][1]= Producto::getByNombre($precio[$i][1])->precio;
-                $total = $total + ($precio[$i][0] * $precio[$i][1]);
+            if($productos != ""){
+                $precio = explode('/', $productos);
+                for($i = 0; $i < count($precio); $i++){
+                    $precio[$i] = explode('-', $precio[$i]);
+                    $precio[$i][1] = Producto::getByNombre($precio[$i][1]);
+                    $total = $total + ($precio[$i][0] * $precio[$i][1]['precio']);
+                }
             }
             return $total;
         }
@@ -44,10 +47,11 @@
 
         public static function update($pedido){
             $db=Db::getConnect();
-            $update=$db->prepare('UPDATE pedido SET id_us=:id_us, fecha=:fecha, precio=:precio, estado=:estado, productos=:productos)');
+            $update=$db->prepare('UPDATE pedido SET id_us=:id_us, fecha=:fecha, precio=:precio, estado=:estado, productos=:productos where id=:id');
+            $update->bindValue('id', $pedido->id);
             $update->bindValue('id_us', $pedido->id_us);
             $update->bindValue('fecha', $pedido->fecha);
-            $update->bindValue('pedido', $pedido->precio);
+            $update->bindValue('precio', $pedido->precio);
             $update->bindValue('estado', $pedido->estado);
             $update->bindValue('productos', $pedido->productos);
             $update->execute();
@@ -63,14 +67,12 @@
         public static function getById($id){
             //buscar
             $db=Db::getConnect();
-            $select=$db->prepare('SELECT * FROM producto WHERE id=:id');
+            $select=$db->prepare('SELECT * FROM pedido WHERE id=:id');
             $select->bindValue('id',$id);
             $select->execute();
-            //asignarlo al objeto usuario
-            if($select->fetchColumn()){
-                //asignarlo al objeto usuario
-                $productoDb=$select->fetch();
-                $producto= new Producto($productoDb['id'],$productoDb['id_us'],$productoDb['fecha'], $productoDb['estado'], $productoDb['productos']);
+            $productoDb=$select->fetch();
+            if($productoDb){
+                $producto= new Pedido($productoDb['id'],$productoDb['id_us'],$productoDb['fecha'], $productoDb['estado'], $productoDb['productos']);
                 return $producto;
             }else{
                 return false;
@@ -80,31 +82,38 @@
         public static function getById_us($id_us){
             //buscar
             $db=Db::getConnect();
-            $select=$db->prepare('SELECT * FROM producto WHERE id_us=:id_us');
+            $select=$db->prepare('SELECT * FROM pedido WHERE id_us=:id_us');
             $select->bindValue('id_us',$id_us);
             $select->execute();
-            //asignarlo al objeto usuario
-            if($select->fetchColumn()){
-                //asignarlo al objeto usuario
-                $productoDb=$select->fetch();
-                $producto= new Producto($productoDb['id'],$productoDb['id_us'],$productoDb['fecha'], $productoDb['estado'], $productoDb['productos']);
-                return $producto;
-            }else{
-                return false;
+            $pedidos = array();
+            foreach($select->fetchAll() as $fila){
+                array_push($pedidos,new Pedido($fila['id'], $fila['id_us'],$fila['fecha'],$fila['estado'],$fila['productos']));
             }
+            return $pedidos;
         }
 
         public static function getByFecha($fecha){
             //buscar
             $db=Db::getConnect();
-            $select=$db->prepare('SELECT * FROM producto WHERE fecha=:fecha');
+            $select=$db->prepare('SELECT * FROM pedido WHERE fecha=:fecha');
             $select->bindValue('fecha',$fecha);
             $select->execute();
-            //asignarlo al objeto usuario
-            if($select->fetchColumn()){
-                //asignarlo al objeto usuario
-                $productoDb=$select->fetch();
-                $producto= new Producto($productoDb['id'],$productoDb['id_us'],$productoDb['fecha'], $productoDb['estado'], $productoDb['productos']);
+            $pedidos = array();
+            foreach($select->fetchAll() as $fila){
+                array_push($pedidos,new Pedido($fila['id'], $fila['id_us'],$fila['fecha'],$fila['estado'],$fila['productos']));
+            }
+            return $pedidos;
+        }
+
+        public static function getIncompleto($id_us){
+            //buscar
+            $db=Db::getConnect();
+            $select=$db->prepare('SELECT * FROM pedido WHERE id_us=:id_us and estado="Incompleto"');
+            $select->bindValue('id_us',$id_us);
+            $select->execute();
+            $productoDb=$select->fetch();
+            if($productoDb){
+                $producto= new Pedido($productoDb['id'],$productoDb['id_us'],$productoDb['fecha'], $productoDb['estado'], $productoDb['productos']);
                 return $producto;
             }else{
                 return false;

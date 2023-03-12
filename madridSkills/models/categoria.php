@@ -12,7 +12,7 @@
 
         public static function save($categoria){
             $db=Db::getConnect();
-            $insert=$db->prepare('INSERT INTO categoria VALUES(null, :nombre');
+            $insert=$db->prepare('INSERT INTO categoria VALUES(null, :nombre)');
             $insert->bindValue('nombre',$categoria->nombre);
             $insert->execute();
         }
@@ -61,10 +61,35 @@
             $select=$db->prepare('SELECT * FROM categoria WHERE id=:id');
             $select->bindValue('id',$id);
             $select->execute();
-            //asignarlo al objeto usuario
-            if($select->fetchColumn()){
-                //asignarlo al objeto usuario
-                $categoriaDb=$select->fetch();
+            $categoriaDb=$select->fetch();
+            if($categoriaDb){
+                $categoria= new Categoria($categoriaDb['id'],$categoriaDb['nombre']);
+                return $categoria;
+            }else{
+                return false;
+            }
+        }
+
+        public static function getLikeNombre($nombre){
+            $db=Db::getConnect();
+            $select=$db->prepare('SELECT * FROM categoria WHERE nombre like %:nombre%');
+            $select->bindValue('nombre',$nombre);
+            $select->execute();
+            $categoria = array();
+            foreach($select->fetchAll() as $fila){
+                array_push($categoria,new Categoria($fila['id'], $fila['nombre']));
+            }
+            return $categoria;
+        }
+
+        public static function getByNombre($nombre){
+            //buscar
+            $db=Db::getConnect();
+            $select=$db->prepare('SELECT * FROM categoria WHERE nombre=:nombre');
+            $select->bindValue('nombre',$nombre);
+            $select->execute();
+            $categoriaDb=$select->fetch();
+            if($categoriaDb){
                 $categoria= new Categoria($categoriaDb['id'],$categoriaDb['nombre']);
                 return $categoria;
             }else{

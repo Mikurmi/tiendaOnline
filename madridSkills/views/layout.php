@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Entrada</title>
     <link rel="stylesheet" href="assets/estiloInicio.css">
+    
 </head>
 <body>
     <div class="header">

@@ -32,6 +32,7 @@
         public static function update($producto){
             $db=Db::getConnect();
             $update=$db->prepare('UPDATE producto SET nombre=:nombre, precio=:precio, categoria=:categoria, unidades=:unidades where id=:id');
+            $update->bindValue('id', $producto->id);
             $update->bindValue('nombre', $producto->nombre);
             $update->bindValue('precio', $producto->precio);
             $update->bindValue('categoria', $producto->categoria);
@@ -51,10 +52,9 @@
             $select=$db->prepare('SELECT * FROM producto WHERE id=:id');
             $select->bindValue('id',$id);
             $select->execute();
+            $productoDb=$select->fetch();
             //asignarlo al objeto usuario
-            if($select->fetchColumn()){
-                //asignarlo al objeto usuario
-                $productoDb=$select->fetch();
+            if($productoDb){
                 $producto= new Producto($productoDb['id'],$productoDb['nombre'],$productoDb['precio'],$productoDb['categoria'],$productoDb['unidades']);
                 return $producto;
             }else{
@@ -67,15 +67,26 @@
             $select=$db->prepare('SELECT * FROM producto WHERE nombre=:nombre');
             $select->bindValue('nombre',$nombre);
             $select->execute();
+            $productoDb=$select->fetch();
             //asignarlo al objeto usuario
-            if($select->fetchColumn()){
-                //asignarlo al objeto usuario
-                $productoDb=$select->fetch();
-                $producto= new Producto($productoDb['id'],$productoDb['nombre'],$productoDb['precio'],$productoDb['categoria'],$productoDb['unidades']);
-                return $producto;
+            if($productoDb){
+                //$producto= new Producto($productoDb['id'],$productoDb['nombre'],$productoDb['precio'],$productoDb['categoria'],$productoDb['unidades']);
+                return $productoDb;
             }else{
                 return false;
             }
+        }
+
+        public static function getLikeNombre($nombre){
+            $db=Db::getConnect();
+            $select=$db->prepare('SELECT * FROM producto WHERE nombre like :nombre');
+            $select->bindValue('nombre','%'.$nombre.'%');
+            $select->execute();
+            $productos = array();
+            foreach($select->fetchAll() as $fila){
+                array_push($productos,new Producto($fila['id'], $fila['nombre'],$fila['precio'],$fila['categoria'],$fila['unidades']));
+            }
+            return $productos;
         }
 
         //Devuelve un array con todos los productos
@@ -83,7 +94,11 @@
             $db=Db::getConnect();
             $select=$db->prepare('SELECT * FROM producto');
             $select->execute();
-            return $select->fetchAll();
+            $productos = array();
+            foreach($select->fetchAll() as $fila){
+                array_push($productos,new Producto($fila['id'], $fila['nombre'],$fila['precio'],$fila['categoria'],$fila['unidades']));
+            }
+            return $productos;
         }
 
         //Devuelve un array de los productos por la categoria
@@ -92,7 +107,11 @@
             $select=$db->prepare('SELECT * FROM producto where find_in_set(:categoria, categoria)>=1');
             $select->bindValue('categoria',$categoria);
             $select->execute();
-            return $select->fetchAll();
+            $productos = array();
+            foreach($select->fetchAll() as $fila){
+                array_push($productos,new Producto($fila['id'], $fila['nombre'],$fila['precio'],$fila['categoria'],$fila['unidades']));
+            }
+            return $productos;
         }
     }
 

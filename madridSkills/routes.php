@@ -14,6 +14,17 @@ function call($controller, $action){
             require_once('models/usuario.php'); //en este archivo configuraremos el acceso a la base de datos y funciones CRUD de usuario
             $controller= new UsuarioController(); //instancia de UsuarioController (de usuario_controller.php)
             break; 
+        case 'producto':
+            require_once('models/producto.php');
+            $controller = new ProductoController();
+            break;
+        case 'categoria':
+            require_once('models/categoria.php');
+            $controller = new CategoriaController();
+            break;
+        case 'pedido':
+            require_once('models/pedido.php');
+            $controller = new PedidoController();
     }
     //llama a la acción del controlador (método)
     $controller->{$action }();
@@ -23,7 +34,10 @@ array con los controladores y sus respectivas acciones.
 De moemento solo tenemos las de usuario, según se amplie el código vamos a ir implementando los controllers y sus acciones
 */
 $controllers= array(
-    'usuario'=>['inicio','registro','index']
+    'usuario'=>['inicio','registro','index'],
+    'producto'=>['registrar','borrar','actualizar','index'],
+    'categoria'=>['registrar','borrar','index'],
+    'pedido'=>['index','buscarFecha','buscarIdus','cambiar','realizar']
     );
 /*
 verifica si la variable $controller que viene desde index.php se encuentra en el array 
@@ -38,9 +52,9 @@ if (array_key_exists($controller, $controllers)) {
         //llama  la función call y le pasa el controlador y la acción (método) que está dentro del controlador
         call($controller, $action);
     }else{
-        call('usuario', 'error');
+        echo "Fallo al llamar a un action no existente";
     }
 }else{// le pasa el nombre del controlador y la pagina de error
-    call('usuario', 'error');
+    echo "Fallo al llamar a un controller no existente";
 }
 ?>

@@ -45,9 +45,8 @@ class Administrador{
 		$select=$db->prepare('SELECT * FROM administrador WHERE id_us=:id_us');
 		$select->bindValue('id_us',$id_us);
 		$select->execute();
-        if($select->fetchColumn()){
-            //asignarlo al objeto administrador
-            $administradorDb=$select->fetch();
+        $administradorDb=$select->fetch();
+        if($administradorDb){
             $administrador = new Administrador($administradorDb['id_us'],$administradorDb['cod_admin']);
             return $administrador;
         }else{

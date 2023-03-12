@@ -29,11 +29,14 @@
                     <option value="Femenino">Femenino</option>
                     <option value="Otro">Otro</option>
                 </select>
+                <br>
                 <label for="fecha_na">Fecha de nacimiento</label>
                 <input type="date" id="fecha_nac" name="fecha_nac">
                 <input type="text" id="telefono" name="telefono" placeholder="Telefono" maxlength="9" minlenght="9">
+                <br>
                 <input type="email" id="email" name="email" placeholder="Correo electronico">
                 <input type="text" id="direccion" name="direccion" placeholder="Dirección">
+                <br>
                 <select name="tipo_ident">
                     <option value="DNI">DNI</option>
                     <option value="NIF">NIF</option>

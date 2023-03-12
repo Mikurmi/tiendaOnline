@@ -48,10 +48,12 @@ class UsuarioController
 			require_once('../models/usuario.php');
 			$usuario = Usuario::getById($id);
 			if($usuario->tipo == 'cliente'){
+				require_once('../models/cliente.php');
 				Usuario::delete($id);
+				Cliente::delete($id);
 				header('Location: ../index.php');
 			}else{
-				echo "No tienes permiso para borrar un administrador";
+				echo "<script> alert('No tienes permiso para borrar un administrador'); </script>";
 			}
 			
 		}
@@ -82,7 +84,7 @@ class UsuarioController
 				}
 				if($extra){
 					require_once('../sesion/inicio.php');
-					require_once('../views/'.$usuario->tipo.'/index.php');
+					header('Location: ../views/'.$usuario->tipo.'/index.php');
 				}else{
 					echo "<script> alert('No existe'); window.location.href='../index.php';</script>";
 				}
