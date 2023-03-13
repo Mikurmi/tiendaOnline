@@ -72,7 +72,7 @@ CREATE TABLE `pedido` (
   `id_us` int(11) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   `precio` double DEFAULT NULL,
-  `estado` enum('Solicitado','Preparación','En transporte','Entregado','Rechazado','Cancelado') DEFAULT NULL,
+  `estado` enum('Incompleto','Solicitado','Preparación','En transporte','Entregado','Rechazado','Cancelado') DEFAULT NULL,
   `productos` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`productos`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
