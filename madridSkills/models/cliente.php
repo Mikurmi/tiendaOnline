@@ -41,7 +41,7 @@ class Cliente{
 
     public static function update($cliente){
         $db=Db::getConnect();
-        $insert=$db->prepare('UPDATE cliente apellidos=:apellidos, apellidos=:genero, fecha_nac=:fecha_nac, telefono=:telefono, email=:email, direccion=:direccion, tipo_ident=:tipo_ident, identificador=:identificador where id_us=:id_us');
+        $insert=$db->prepare('UPDATE cliente set apellidos=:apellidos, genero=:genero, fecha_nac=:fecha_nac, telefono=:telefono, email=:email, direccion=:direccion, tipo_ident=:tipo_ident, identificador=:identificador where id_us=:id_us');
         $insert->bindVAlue('id_us',$cliente->id_us);
         $insert->bindVAlue('apellidos',$cliente->apellidos);
         $insert->bindVAlue('genero',$cliente->genero);

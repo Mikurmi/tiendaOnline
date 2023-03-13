@@ -113,6 +113,16 @@
             }
             return $productos;
         }
+
+        public static function quitarUnidades($nombre, $unidades){
+            $db=Db::getConnect();
+            $producto = Producto::getByNombre($nombre);
+            $producto['unidades'] = $producto['unidades'] - $unidades;
+            $select=$db->prepare('UPDATE producto SET unidades=:unidades where id=:id');
+            $select->bindValue('unidades',$producto['unidades']);
+            $select->bindValue('id', $producto['id']);
+            $select->execute();
+        }
     }
 
 

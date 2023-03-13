@@ -19,7 +19,7 @@ class UsuarioController
 		}
 
 		public function save($usuario){
-			if(!Usuario::getUsuarioBD($usuario->nombre, $usuario->contra)){
+			if(Usuario::getUsuarioBD($usuario->nombre, $usuario->contra) == false){
 				Usuario::save($usuario);
 				if($usuario->tipo == 'cliente'){
 					//Creamos objeto cliente y lo guardamos
@@ -27,15 +27,15 @@ class UsuarioController
 					$id_us = Usuario::getUsuarioBD($usuario->nombre, $usuario->contra)->id;
 					$cliente = new Cliente($id_us, $_POST['apellidos'], $_POST['genero'], $_POST['fecha_nac'], $_POST['telefono'], $_POST['email'], $_POST['direccion'], $_POST['tipo_ident'], $_POST['identificador']);
 					Cliente::save($cliente);
-					header('Location: ../index.php');
 				}else{
 					//Creamos el objeto administrador y lo guardamos
 					require_once('../models/administrador.php');
 					$id_us = Usuario::getUsuarioBD($usuario->nombre, $usuario->contra)->id;
 					$admin = new Administrador($id_us,$_POST['cod_admin']);
 					Administrador::save($admin);
-					header('Location: ../index.php');
 				}
+			}else{
+				echo "<script>alert('Usuario ya registrado');</script>";
 			}
 		}
 
@@ -71,6 +71,7 @@ class UsuarioController
 		if($_POST['action'] == 'registro'){
 			$usuario = new Usuario(null, $_POST['nombre'], $_POST['contra'], $_POST['tipo']);
 			$usuarioController->save($usuario);
+			header('Location: ../index.php?controller=usuario&action=inicio');
 		}elseif($_POST['action'] == 'inicio'){
 			$usuario = Usuario::getUsuarioBD($_POST['nombre'], $_POST['contra']);
 			//Si el usuario existe comprobamos si es cliente o admin

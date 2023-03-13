@@ -23,6 +23,7 @@
   .topnav {
     overflow: hidden;
     background-color: #333;
+    min-height: 55px;
   }
   
   /* Style the topnav links */
@@ -86,6 +87,7 @@
   select, input[type=number]{
     border-radius: 15px 50px;
     padding: 10px;
+    margin: 5px;
     min-width: 20px;
   }
   
@@ -138,40 +140,51 @@
     grid-template-columns: repeat(3, 1fr);
   }
   
+
+
   .producto1{
     background: linear-gradient(315deg, rgba(217,110,43,1) 3%, rgba(158,160,207,1) 48%, rgba(210,196,157,1) 93%);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    min-width: 200px;
+    min-height: 200px;
     min-width: 200px;
     max-width: 500px;
     margin: 10px;
     text-align: center;
     font-family: arial;
-    border-radius: 50px;
+    border-radius: 0px;
+    transition: all .2s;
   }
 
   .producto2{
     background: linear-gradient(315deg, rgba(89,43,217,1) 3%, rgba(158,160,207,1) 48%, rgba(210,166,157,1) 93%);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    min-width: 200px;
+    min-height: 200px;
     min-width: 200px;
     max-width: 500px;
     margin: 10px;
     text-align: center;
     font-family: arial;
-    border-radius: 50px;
+    border-radius: 0px;
+    transition: all .2s;
   }
 
   .producto3{
     background: linear-gradient(315deg, rgba(217,43,125,1) 3%, rgba(158,160,207,1) 48%, rgba(103,133,66,1) 93%);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    min-height: 200px;
     min-width: 200px;
     max-width: 500px;
     margin: 10px;
     text-align: center;
     font-family: arial;
-    border-radius: 50px;
+    border-radius: 0px;
+    transition: all .2s;
   }
+
+  .producto1:hover, .producto2:hover, .producto3:hover {
+    transform: scale(0.98);
+    border-radius: 20px;
+   }
 
   .formulario{
     text-align: center;
@@ -197,4 +210,77 @@
     background-color: coral;
   }
 
+  /*Estilo boton*/
+  button {
+    position: relative;
+    padding: 10px 20px;
+    border-radius: 7px;
+    border: 1px solid rgb(36, 72, 190);
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2px;
+    background: transparent;
+    color:black;
+    overflow: hidden;
+    box-shadow: 0 0 0 0 transparent;
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+    margin: 5px;
+  }
   
+  button:hover {
+    background: rgb(2, 45, 185);
+    box-shadow: 0 0 30px 5px rgba(0, 142, 236, 0.815);
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+  }
+  
+  button:hover::before {
+    -webkit-animation: sh02 0.5s 0s linear;
+    -moz-animation: sh02 0.5s 0s linear;
+    animation: sh02 0.5s 0s linear;
+  }
+  
+  button::before {
+    content: '';
+    display: block;
+    width: 0px;
+    height: 86%;
+    position: absolute;
+    top: 7%;
+    left: 0%;
+    opacity: 0;
+    background: #fff;
+    box-shadow: 0 0 50px 30px #fff;
+    -webkit-transform: skewX(-20deg);
+    -moz-transform: skewX(-20deg);
+    -ms-transform: skewX(-20deg);
+    -o-transform: skewX(-20deg);
+    transform: skewX(-20deg);
+  }
+  
+  @keyframes sh02 {
+    from {
+      opacity: 0;
+      left: 0%;
+    }
+  
+    50% {
+      opacity: 1;
+    }
+  
+    to {
+      opacity: 0;
+      left: 100%;
+    }
+  }
+  
+  button:active {
+    box-shadow: 0 0 0 0 transparent;
+    -webkit-transition: box-shadow 0.2s ease-in;
+    -moz-transition: box-shadow 0.2s ease-in;
+    transition: box-shadow 0.2s ease-in;
+  }

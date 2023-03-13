@@ -25,14 +25,13 @@ class PedidoController
         //Funciones para hacer con los objetos
 		public function save($pedido){
             Pedido::update($pedido);
-            session_start();
-            $usuario = $_SESSION['usuario'];
-            $pedido = new Pedido(null,$usuario->id,date('Y-m-d'),"incompleto","");
+            $id = $_SESSION['usuario_id'];
+            $pedido = new Pedido(null,$id,date('Y-m-d'),"Incompleto","");
             Pedido::save($pedido);
-            $pedido = Pedido::getIncompleto($usuario->id);
+            $pedido = Pedido::getIncompleto($id);
             $_SESSION['id_pedido'] = $pedido->id;
             $_SESSION['productos'] = $pedido->productos;
-            echo "<script> alert('El pedido se ha realizado exito'); </script>";
+            echo "<script> alert('El pedido se ha realizado exito'); window.location.href='../index.php'; </script>";
 		}
 
 		public function update($pedido){
@@ -55,24 +54,29 @@ class PedidoController
 
             case 'anadirProducto':
                 session_start();
-                $_SESSION['productos'] .= "/" . $_POST['unidades'] . "-" . $_POST['producto'];
-                break;
-
-            case 'borrarProducto':
-                session_start();
-                //Producto a borrar
-                $borrar = "/" . $_POST['unidades'] . "-" . $_POST['producto'];
-                $longitud = strlen($borrar);
-                //Si existe en entre los productos lo borramos del string
-                if(array_search($borrar,$_SESSION['productos'])){
-                    //1-String de donde borramos, 2-Texto nuevo, 3-Inicio a borrar, 4-Longitud
-                    substr_replace($_SESSION['productos'],"",strpos($_SESSION['productos'],$borrar),$longitud);
+                if($_SESSION['productos'] == ''){
+                    $_SESSION['productos'] .=   $_POST['unidades'] . "-" . $_POST['producto'];
+                }else{
+                    $_SESSION['productos'] .=  "/" . $_POST['unidades'] . "-" . $_POST['producto'];
                 }
+                
+                echo "<script>alert('Producto añadido con exito'); window.location.href='../views/cliente/index.php' </script>";
                 break;
 
             case 'realizar':
                 session_start();
-                $pedido = new Pedido($_SESSION['id_pedido'],$_SESSION['usuario']->id,date('Y-m-d'),"Solicitado",$_SESSION['productos']);
+                $pedido = new Pedido($_SESSION['id_pedido'],$_SESSION['usuario_id'],date('Y-m-d'),"Solicitado",$_SESSION['productos']);
+                //Quitar unidades de los productos
+                $precio = explode('/', $_SESSION['productos']);
+                if($precio[count($precio)-1] == ""){
+                    $fin = count($precio)-1;
+                }else{
+                    $fin = count($precio);
+                }
+                for($i = 0; $i < $fin; $i++){
+                    $precio[$i] = explode('-', $precio[$i]);
+                    Producto::quitarUnidades($precio[$i][1],$precio[$i][0]);
+                }
                 $pedidoController->save($pedido);
                 break;
 
@@ -90,5 +94,36 @@ class PedidoController
                 break;
         }
 		
-	}
+	}else if(isset($_GET['action'])){
+        $pedidoController = new PedidoController();
+		require_once('../models/pedido.php');
+		require_once('../ddbb/connection.php');
+        switch($_GET['action']){
+        case 'borrarProducto':
+            session_start();
+            //Producto a borrar
+            $borrar = "/" . $_GET['unidades'] . "-" . $_GET['producto'];
+            $longitud = strlen($borrar);
+            //Si existe en entre los productos lo borramos del string
+            $encontrado = strpos($_SESSION['productos'], $borrar);
+            if($encontrado != false){
+                $contenido;
+                if($encontrado == 0){
+                    $contenido = substr($_SESSION['productos'],$longitud);
+                }else if($encontrado == (strlen($_SESSION['productos']) - $longitud)){
+                    $contenido = substr($_SESSION['productos'], 0, (strlen($_SESSION['productos']) - $longitud));
+                }else{
+                    $contenido = substr($_SESSION['productos'], 0, (strlen($_SESSION['productos']) - $longitud));
+                    $contenido .= substr($_SESSION['productos'], $encontrado+$longitud);
+                }
+                $_SESSION['productos']=$contenido;
+                echo "<script>alert('Producto borrado con exito');
+                alert('". $_SESSION['productos'] ."');
+                window.location.href='../views/cliente/pedido/index.php' </script>";
+            }else{
+                echo "<script>alert('ERROR');</script>";
+            }
+            break;
+        }
+    }
 ?>

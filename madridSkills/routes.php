@@ -25,6 +25,11 @@ function call($controller, $action){
         case 'pedido':
             require_once('models/pedido.php');
             $controller = new PedidoController();
+            break;
+        case 'cliente':
+            require_once('models/cliente.php');
+            $controller = new ClienteController();
+            break;
     }
     //llama a la acción del controlador (método)
     $controller->{$action }();
@@ -37,7 +42,8 @@ $controllers= array(
     'usuario'=>['inicio','registro','index'],
     'producto'=>['registrar','borrar','actualizar','index'],
     'categoria'=>['registrar','borrar','index'],
-    'pedido'=>['index','buscarFecha','buscarIdus','cambiar','realizar']
+    'pedido'=>['index','buscarFecha','buscarIdus','cambiar','realizar'],
+    'cliente'=>['index','datos','actualizar']
     );
 /*
 verifica si la variable $controller que viene desde index.php se encuentra en el array 

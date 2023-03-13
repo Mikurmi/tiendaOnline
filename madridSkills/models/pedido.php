@@ -24,7 +24,12 @@
             $total = 0;
             if($productos != ""){
                 $precio = explode('/', $productos);
-                for($i = 0; $i < count($precio); $i++){
+                if($precio[count($precio)-1] == ""){
+                    $fin = count($precio)-1;
+                }else{
+                    $fin = count($precio);
+                }
+                for($i = 0; $i < $fin; $i++){
                     $precio[$i] = explode('-', $precio[$i]);
                     $precio[$i][1] = Producto::getByNombre($precio[$i][1]);
                     $total = $total + ($precio[$i][0] * $precio[$i][1]['precio']);
