@@ -96,8 +96,8 @@ class PedidoController
 		
 	}else if(isset($_GET['action'])){
         $pedidoController = new PedidoController();
-		require_once('../models/pedido.php');
-		require_once('../ddbb/connection.php');
+		require_once('../../models/pedido.php');
+		require_once('../../ddbb/connection.php');
         switch($_GET['action']){
         case 'borrarProducto':
             session_start();
